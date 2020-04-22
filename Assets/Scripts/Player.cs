@@ -35,6 +35,11 @@ namespace Assets.Scripts
             MovePlayer(0, Speed);
         }
 
+        public void MoveVector(Vector2 vector)
+        {
+            MovePlayer(vector.x,vector.y);
+        }
+
         private bool CheckPosition(float xShift, float yShift)
         {
             if (player.transform.position.x + xShift > rightBound ||
@@ -74,6 +79,9 @@ namespace Assets.Scripts
             leftBound = -screenBounds.x;
             rightBound = screenBounds.x;
             screenHeight = topBound * 2;
+#if UNITY_ANDROID
+            Speed *= 0.1f;
+#endif
         }
 
         private void Update()

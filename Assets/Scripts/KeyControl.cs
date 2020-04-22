@@ -35,6 +35,16 @@ public class KeyControl : MonoBehaviour
         }
     }
 
+    private void ControlThroughTouch()
+    {
+        if (Input.touchCount <= 0)
+        {
+            return;
+        }
+        var delta = Input.GetTouch(0).deltaPosition * player.Speed;
+        player.MoveVector(delta);
+    }
+
     private void Start()
     {
         player = GameObject.Find("Player").GetComponent<Player>();
@@ -44,6 +54,9 @@ public class KeyControl : MonoBehaviour
     {
 #if UNITY_STANDALONE
         ControlThroughKeys();
+#endif
+#if UNITY_ANDROID
+        ControlThroughTouch();
 #endif
     }
 }
