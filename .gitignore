@@ -59,6 +59,10 @@ sysinfo.txt
 *.apk
 *.unitypackage
 
+# Pictures
+*.jpg
+*.png
+
 # Crashlytics generated file
 crashlytics-build.properties
 
