@@ -37,7 +37,7 @@ namespace Assets.Scripts
 
         public void MoveVector(Vector2 vector)
         {
-            MovePlayer(vector.x,vector.y);
+            MovePlayer(vector.x, vector.y);
         }
 
         private bool CheckPosition(float xShift, float yShift)

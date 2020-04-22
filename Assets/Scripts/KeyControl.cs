@@ -1,17 +1,17 @@
 ﻿using System;
 using Assets.Scripts;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class KeyControl : MonoBehaviour
 {
     private Player player;
+    private Settings settings;
 
     private void ControlThroughKeys()
     {
         if (Input.GetKey(KeyCode.Escape))
         {
-            SceneManager.LoadScene("MainMenu");
+            settings.SettingsClick();
         }
 
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
@@ -41,6 +41,7 @@ public class KeyControl : MonoBehaviour
         {
             return;
         }
+
         var delta = Input.GetTouch(0).deltaPosition * player.Speed;
         player.MoveVector(delta);
     }
@@ -48,10 +49,15 @@ public class KeyControl : MonoBehaviour
     private void Start()
     {
         player = GameObject.Find("Player").GetComponent<Player>();
+        settings = GameObject.Find("SettingsButton").GetComponent<Settings>();
     }
 
     private void Update()
     {
+        if (settings.InSettings)
+        {
+            return;
+        }
 #if UNITY_STANDALONE
         ControlThroughKeys();
 #endif
