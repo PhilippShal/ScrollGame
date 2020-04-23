@@ -78,7 +78,6 @@ namespace Assets.Scripts
         private void Update()
         {
             healthText.text = health.ToString();
-            //Debug.Log(healthText.text + " " + health.ToString());
             RefreshBounds();
             if (body.position.y < bottomBound)
             {
