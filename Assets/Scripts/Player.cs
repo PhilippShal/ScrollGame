@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts
 {
@@ -16,6 +17,8 @@ namespace Assets.Scripts
         private float topBound;
         private Rigidbody2D body;
         private bool obstacleCollision = false;
+        public int health;
+        private Text healthText;
 
         public void MoveVector(Vector2 vector)
         {
@@ -65,6 +68,8 @@ namespace Assets.Scripts
             leftBound = -screenBounds.x;
             rightBound = screenBounds.x;
             screenHeight = topBound * 2;
+            healthText = GameObject.Find("HealthText").GetComponent<Text>();
+            healthText.text = health.ToString();
 #if UNITY_ANDROID
             Speed *= 0.1f;
 #endif
@@ -72,11 +77,14 @@ namespace Assets.Scripts
 
         private void Update()
         {
+            healthText.text = health.ToString();
+            //Debug.Log(healthText.text + " " + health.ToString());
             RefreshBounds();
             if (body.position.y < bottomBound)
             {
                 body.position = new Vector3(body.position.x, bottomBound, player.transform.position.z);
             }
+            
         }
     }
 }
