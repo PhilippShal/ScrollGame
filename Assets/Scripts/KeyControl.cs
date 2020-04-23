@@ -14,25 +14,33 @@ public class KeyControl : MonoBehaviour
             settings.SettingsClick();
         }
 
+        KeyMoves();
+    }
+
+    private void KeyMoves()
+    {
+        var movementVector = new Vector2(0, 0);
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
-            player.MoveLeft();
+            movementVector += new Vector2(-player.Speed, 0);
         }
 
         if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
-            player.MoveRight();
+            movementVector += new Vector2(player.Speed, 0);
         }
 
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
         {
-            player.MoveUp();
+            movementVector += new Vector2(0, player.Speed);
         }
 
         if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
-            player.MoveDown();
+            movementVector += new Vector2(0, -player.Speed);
         }
+
+        player.MoveVector(movementVector);
     }
 
     private void ControlThroughTouch()

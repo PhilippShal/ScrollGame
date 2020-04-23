@@ -14,52 +14,36 @@ namespace Assets.Scripts
         private Vector2 screenBounds;
         private float screenHeight;
         private float topBound;
-
-        public void MoveDown()
-        {
-            MovePlayer(0, -Speed);
-        }
-
-        public void MoveLeft()
-        {
-            MovePlayer(-Speed, 0);
-        }
-
-        public void MoveRight()
-        {
-            MovePlayer(Speed, 0);
-        }
-
-        public void MoveUp()
-        {
-            MovePlayer(0, Speed);
-        }
+        private Rigidbody2D body;
+        private bool obstacleCollision = false;
 
         public void MoveVector(Vector2 vector)
         {
-            MovePlayer(vector.x, vector.y);
+            if (CheckPosition(vector.x, vector.y))
+            {
+                obstacleCollision = false;
+                return;
+            }
+
+            // Vector3 velocity = Vector3.zero;
+            // Vector3 desiredPosition = player.transform.position + new Vector3(xShift, yShift, 0);
+            // Vector3 smoothPosition = Vector3.SmoothDamp(transform.position, desiredPosition, ref velocity, 0.01f);
+            // player.transform.position = smoothPosition;
+
+            body.MovePosition(body.position + vector);
         }
 
         private bool CheckPosition(float xShift, float yShift)
         {
-            if (player.transform.position.x + xShift > rightBound ||
-                player.transform.position.x + xShift < leftBound ||
-                player.transform.position.y + yShift > topBound)
+            if (body.position.x + xShift > rightBound ||
+                body.position.x + xShift < leftBound ||
+                body.position.y + yShift > topBound ||
+                obstacleCollision)
             {
                 return true;
             }
 
             return false;
-        }
-
-        private void MovePlayer(float xShift, float yShift)
-        {
-            if (CheckPosition(xShift, yShift))
-            {
-                return;
-            }
-
-            player.transform.position = new Vector3(player.transform.position.x + xShift, player.transform.position.y + yShift, player.transform.position.z);
         }
 
         private void RefreshBounds()
@@ -72,6 +56,8 @@ namespace Assets.Scripts
         private void Start()
         {
             player = gameObject;
+            body = player.GetComponent<Rigidbody2D>();
+            body.freezeRotation = true;
             mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
             screenBounds = mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, mainCamera.transform.position.z));
             topBound = screenBounds.y;
@@ -87,9 +73,9 @@ namespace Assets.Scripts
         private void Update()
         {
             RefreshBounds();
-            if (player.transform.position.y < bottomBound)
+            if (body.position.y < bottomBound)
             {
-                player.transform.position = new Vector3(player.transform.position.x, bottomBound, player.transform.position.z);
+                body.position = new Vector3(body.position.x, bottomBound, player.transform.position.z);
             }
         }
     }
