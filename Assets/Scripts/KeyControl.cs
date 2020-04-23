@@ -17,32 +17,6 @@ public class KeyControl : MonoBehaviour
         KeyMoves();
     }
 
-    private void KeyMoves()
-    {
-        var movementVector = new Vector2(0, 0);
-        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
-        {
-            movementVector += new Vector2(-player.Speed, 0);
-        }
-
-        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
-        {
-            movementVector += new Vector2(player.Speed, 0);
-        }
-
-        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
-        {
-            movementVector += new Vector2(0, player.Speed);
-        }
-
-        if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
-        {
-            movementVector += new Vector2(0, -player.Speed);
-        }
-
-        player.MoveVector(movementVector);
-    }
-
     private void ControlThroughTouch()
     {
         if (Input.touchCount <= 0)
@@ -52,6 +26,40 @@ public class KeyControl : MonoBehaviour
 
         var delta = Input.GetTouch(0).deltaPosition * player.Speed;
         player.MoveVector(delta);
+    }
+
+    private void KeyMoves()
+    {
+        var movementDetected = false;
+        var movementVector = new Vector2(0, 0);
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+        {
+            movementVector += new Vector2(-player.Speed, 0);
+            movementDetected = true;
+        }
+
+        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+        {
+            movementVector += new Vector2(player.Speed, 0);
+            movementDetected = true;
+        }
+
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+        {
+            movementVector += new Vector2(0, player.Speed);
+            movementDetected = true;
+        }
+
+        if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+        {
+            movementVector += new Vector2(0, -player.Speed);
+            movementDetected = true;
+        }
+
+        if (movementDetected)
+        {
+            player.MoveVector(movementVector);
+        }
     }
 
     private void Start()

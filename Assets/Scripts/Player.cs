@@ -4,27 +4,18 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts
 {
-    public class Player : MonoBehaviour
+    public class Player : MovingObject
     {
+        public int Health;
         public float Speed;
-        private float bottomBound;
-        private float leftBound;
-        private Camera mainCamera;
-        private GameObject player;
-        private float rightBound;
-        private Vector2 screenBounds;
-        private float screenHeight;
-        private float topBound;
         private Rigidbody2D body;
-        private bool obstacleCollision = false;
-        public int health;
         private Text healthText;
+        private GameObject player;
 
         public void MoveVector(Vector2 vector)
         {
-            if (CheckPosition(vector.x, vector.y))
+            if (IsNextPositionOutOfScreen(vector.x, vector.y))
             {
-                obstacleCollision = false;
                 return;
             }
 
@@ -36,54 +27,56 @@ namespace Assets.Scripts
             body.MovePosition(body.position + vector);
         }
 
-        private bool CheckPosition(float xShift, float yShift)
+        private void CheckBottomBound()
         {
-            if (body.position.x + xShift > rightBound ||
-                body.position.x + xShift < leftBound ||
-                body.position.y + yShift > topBound ||
-                obstacleCollision)
+            if (body.position.y < bottomBound)
             {
-                return true;
+                body.position = new Vector3(body.position.x, bottomBound, player.transform.position.z);
             }
-
-            return false;
         }
 
-        private void RefreshBounds()
+        private void Gameover()
         {
-            screenBounds = mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, mainCamera.transform.position.z));
-            topBound = screenBounds.y;
-            bottomBound = topBound - screenHeight;
         }
 
-        private void Start()
+        private void OnTriggerEnter2D(Collider2D collider)
         {
+            var collideObject = collider.gameObject;
+            if (collideObject.layer == 9)
+            {
+                Health -= collideObject.GetComponent<EnemyProjectile>().Damage;
+            }
+        }
+
+        private void RefreshHealth()
+        {
+            healthText.text = Health.ToString();
+            if (Health <= 0)
+            {
+                Destroy(gameObject);
+                Gameover();
+            }
+        }
+
+        private new void Start()
+        {
+            base.Start();
             player = gameObject;
             body = player.GetComponent<Rigidbody2D>();
             body.freezeRotation = true;
-            mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
-            screenBounds = mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, mainCamera.transform.position.z));
-            topBound = screenBounds.y;
-            bottomBound = -screenBounds.y;
-            leftBound = -screenBounds.x;
-            rightBound = screenBounds.x;
-            screenHeight = topBound * 2;
+            body.velocity = Vector2.zero;
             healthText = GameObject.Find("HealthText").GetComponent<Text>();
-            healthText.text = health.ToString();
+            healthText.text = Health.ToString();
 #if UNITY_ANDROID
             Speed *= 0.1f;
 #endif
         }
 
-        private void Update()
+        private new void Update()
         {
-            healthText.text = health.ToString();
-            RefreshBounds();
-            if (body.position.y < bottomBound)
-            {
-                body.position = new Vector3(body.position.x, bottomBound, player.transform.position.z);
-            }
-            
+            base.Update();
+            RefreshHealth();
+            CheckBottomBound();
         }
     }
 }
