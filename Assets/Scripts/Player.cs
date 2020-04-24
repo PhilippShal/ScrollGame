@@ -8,10 +8,15 @@ namespace Assets.Scripts
     public class Player : MovingObject
     {
         public int Health;
+        public Rigidbody2D projectile;
+        public float ProjectileSpawnTime;
         public float Speed;
         private Rigidbody2D body;
         private Text healthText;
         private GameObject player;
+        private readonly Vector2 projectile1Vector = new Vector2(0, 0.2f);
+        private readonly Vector2 projectile2Vector = new Vector2(-0.06f, 0.2f);
+        private readonly Vector2 projectile3Vector = new Vector2(0.06f, 0.2f);
 
         public void MoveVector(Vector2 vector)
         {
@@ -43,7 +48,7 @@ namespace Assets.Scripts
         private void OnTriggerEnter2D(Collider2D collider)
         {
             var collideObject = collider.gameObject;
-            if (collideObject.layer == Constants.ProjectileLayer)
+            if (collideObject.layer == Constants.EnemyProjectileLayer)
             {
                 Health -= collideObject.GetComponent<EnemyProjectile>().Damage;
             }
@@ -59,6 +64,21 @@ namespace Assets.Scripts
             }
         }
 
+        private void SpawnProjectile(Vector2 projectileVector)
+        {
+            var instance = Instantiate(projectile, gameObject.GetComponent<Transform>().position + new Vector3(0, 0, Constants.ProjectileZShift), Converters.GetAngleFromDirection(projectileVector.x, projectileVector.y));
+            var newProjectile = instance.gameObject.GetComponent<PlayerProjectile>();
+            newProjectile.xSpeed = projectileVector.x;
+            newProjectile.ySpeed = projectileVector.y;
+        }
+
+        private void SpawnProjectiles()
+        {
+            SpawnProjectile(projectile1Vector);
+            SpawnProjectile(projectile2Vector);
+            SpawnProjectile(projectile3Vector);
+        }
+
         private new void Start()
         {
             base.Start();
@@ -68,6 +88,7 @@ namespace Assets.Scripts
             body.velocity = Vector2.zero;
             healthText = GameObject.Find(Constants.HealthTextName).GetComponent<Text>();
             healthText.text = Health.ToString();
+            InvokeRepeating("SpawnProjectiles", 0f, ProjectileSpawnTime);
 #if UNITY_ANDROID
             Speed *= 0.1f;
 #endif

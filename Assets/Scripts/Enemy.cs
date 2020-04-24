@@ -14,6 +14,25 @@ public class Enemy : MovingObject
     private HealthBar healthBar;
     private int initialHealth;
 
+    private void Death()
+    {
+        Destroy(gameObject);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        var collideObject = collider.gameObject;
+        if (collideObject.layer == Constants.PlayerProjectileLayer)
+        {
+            Health -= collideObject.GetComponent<PlayerProjectile>().Damage;
+        }
+
+        if (Health <= 0)
+        {
+            Death();
+        }
+    }
+
     private void SpawnProjectile()
     {
         var instance = Instantiate(projectile, gameObject.GetComponent<Transform>().position + new Vector3(0, 0, Constants.ProjectileZShift), Converters.GetAngleFromDirection(xProjectileSpeed, yProjectileSpeed));

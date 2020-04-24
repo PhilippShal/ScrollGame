@@ -2,9 +2,17 @@
 using Assets.Scripts.Helpers;
 using UnityEngine;
 
-public class EnemyProjectile : Projectile
+public class PlayerProjectile : Projectile
 {
     public int Damage;
+
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.gameObject.tag == Constants.EnemyTag)
+        {
+            Destroy(gameObject);
+        }
+    }
 
     protected new void Start()
     {
@@ -14,13 +22,5 @@ public class EnemyProjectile : Projectile
     protected new void Update()
     {
         base.Update();
-    }
-
-    private void OnTriggerEnter2D(Collider2D collider)
-    {
-        if (collider.gameObject.tag == Constants.PlayerTag)
-        {
-            Destroy(gameObject);
-        }
     }
 }
