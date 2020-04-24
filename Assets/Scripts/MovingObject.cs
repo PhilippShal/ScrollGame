@@ -1,4 +1,5 @@
 ﻿using System;
+using Assets.Scripts.Helpers;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -41,7 +42,7 @@ namespace Assets.Scripts
 
         protected void Start()
         {
-            bgScroller = GameObject.Find("Main Camera").GetComponent<BackgroundScroller>();
+            bgScroller = GameObject.Find(Constants.MainCameraName).GetComponent<BackgroundScroller>();
             screenBounds = bgScroller.ScreenBounds;
             topBound = screenBounds.y;
             bottomBound = -screenBounds.y;

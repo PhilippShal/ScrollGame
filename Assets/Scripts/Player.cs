@@ -1,4 +1,5 @@
 ﻿using System;
+using Assets.Scripts.Helpers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -42,7 +43,7 @@ namespace Assets.Scripts
         private void OnTriggerEnter2D(Collider2D collider)
         {
             var collideObject = collider.gameObject;
-            if (collideObject.layer == 9)
+            if (collideObject.layer == Constants.ProjectileLayer)
             {
                 Health -= collideObject.GetComponent<EnemyProjectile>().Damage;
             }
@@ -65,7 +66,7 @@ namespace Assets.Scripts
             body = player.GetComponent<Rigidbody2D>();
             body.freezeRotation = true;
             body.velocity = Vector2.zero;
-            healthText = GameObject.Find("HealthText").GetComponent<Text>();
+            healthText = GameObject.Find(Constants.HealthTextName).GetComponent<Text>();
             healthText.text = Health.ToString();
 #if UNITY_ANDROID
             Speed *= 0.1f;

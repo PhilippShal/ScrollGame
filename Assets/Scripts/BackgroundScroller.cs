@@ -1,4 +1,5 @@
 ﻿using System;
+using Assets.Scripts.Helpers;
 using UnityEngine;
 
 public class BackgroundScroller : MonoBehaviour
@@ -69,7 +70,7 @@ public class BackgroundScroller : MonoBehaviour
     {
         Vector3 velocity = Vector3.zero;
         Vector3 desiredPosition = transform.position + new Vector3(0, scrollSpeed, 0);
-        Vector3 smoothPosition = Vector3.SmoothDamp(transform.position, desiredPosition, ref velocity, 0.3f);
+        Vector3 smoothPosition = Vector3.SmoothDamp(transform.position, desiredPosition, ref velocity, Constants.SmoothScrolling);
         transform.position = smoothPosition;
     }
 }

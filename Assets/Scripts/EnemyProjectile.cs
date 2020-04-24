@@ -1,5 +1,6 @@
 ﻿using System;
 using Assets.Scripts;
+using Assets.Scripts.Helpers;
 using UnityEngine;
 
 public class EnemyProjectile : MovingObject
@@ -8,6 +9,10 @@ public class EnemyProjectile : MovingObject
     public float xSpeed;
     public float ySpeed;
     private Rigidbody2D body;
+
+    private void FixedUpdate()
+    {
+    }
 
     private void MoveVector(Vector2 vector)
     {
@@ -22,12 +27,17 @@ public class EnemyProjectile : MovingObject
 
     private void MoveWithSpeed()
     {
-        MoveVector(new Vector2(xSpeed, ySpeed));
+        var movingVector = new Vector2(xSpeed, ySpeed);
+        MoveVector(movingVector);
+        if (movingVector != Vector2.zero)
+        {
+            transform.rotation = Converters.GetAngleFromDirection(movingVector.x, movingVector.y);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.gameObject.tag == "Player")
+        if (collider.gameObject.tag == Constants.PlayerTag)
         {
             Destroy(gameObject);
         }
@@ -37,11 +47,6 @@ public class EnemyProjectile : MovingObject
     {
         base.Start();
         body = gameObject.GetComponent<Rigidbody2D>();
-    }
-
-    private void FixedUpdate()
-    {
-        
     }
 
     private new void Update()

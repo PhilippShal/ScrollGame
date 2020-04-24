@@ -1,4 +1,5 @@
 ﻿using System;
+using Assets.Scripts.Helpers;
 using UnityEngine;
 
 public class Settings : MonoBehaviour
@@ -32,7 +33,7 @@ public class Settings : MonoBehaviour
 
     public void Start()
     {
-        settingsMenu = GameObject.Find("SettingsCanvas");
+        settingsMenu = GameObject.Find(Constants.SettingsCanvasName);
         settingsMenu.SetActive(false);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using Assets.Scripts;
+using Assets.Scripts.Helpers;
 using UnityEngine;
 
 public class KeyControl : MonoBehaviour
@@ -64,8 +65,8 @@ public class KeyControl : MonoBehaviour
 
     private void Start()
     {
-        player = GameObject.Find("Player").GetComponent<Player>();
-        settings = GameObject.Find("SettingsButton").GetComponent<Settings>();
+        player = GameObject.Find(Constants.PlayerName).GetComponent<Player>();
+        settings = GameObject.Find(Constants.SettingsButtonName).GetComponent<Settings>();
     }
 
     private void Update()
