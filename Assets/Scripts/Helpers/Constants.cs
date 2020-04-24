@@ -4,6 +4,7 @@ namespace Assets.Scripts.Helpers
 {
     public static class Constants
     {
+        public const string BarName = "Bar";
         public const string GameSceneName = "Game";
         public const string HealthTextName = "HealthText";
         public const string MainCameraName = "Main Camera";

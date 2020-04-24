@@ -5,10 +5,14 @@ using UnityEngine;
 
 public class Enemy : MovingObject
 {
+    public int Health;
     public Rigidbody2D projectile;
     public float ProjectileSpawnTime;
     public float xProjectileSpeed;
     public float yProjectileSpeed;
+
+    private HealthBar healthBar;
+    private int initialHealth;
 
     private void SpawnProjectile()
     {
@@ -22,10 +26,13 @@ public class Enemy : MovingObject
     {
         base.Start();
         InvokeRepeating("SpawnProjectile", 0f, ProjectileSpawnTime);
+        healthBar = gameObject.GetComponentInChildren<HealthBar>();
+        initialHealth = Health;
     }
 
     private new void Update()
     {
         base.Update();
+        healthBar.SetSize(Health / (float)initialHealth);
     }
 }
