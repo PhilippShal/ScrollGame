@@ -11,6 +11,7 @@ namespace Assets.Scripts.Helpers
         public const string PlayerTag = "Player";
         public const int ProjectileLayer = 9;
         public const float ProjectileZShift = -0.1f;
+        public const string SettingsButtonName = "SettingsButton";
         public const string SettingsCanvasName = "SettingsCanvas";
         public const float SmoothScrolling = 0.3f;
     }
