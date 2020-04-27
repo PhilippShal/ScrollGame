@@ -11,15 +11,16 @@ namespace Assets.Scripts
         protected float rightBound;
         protected float topBound;
         private Camera mainCamera;
+        private Vector2 objectSize;
         private Vector2 screenBounds;
         private float screenHeight;
 
         protected bool IsPositionOutOfScreen()
         {
-            if (gameObject.transform.position.x > rightBound ||
-                gameObject.transform.position.x < leftBound ||
-                gameObject.transform.position.y > topBound ||
-                gameObject.transform.position.y < bottomBound)
+            if (gameObject.transform.position.x - objectSize.x > rightBound ||
+                gameObject.transform.position.x + objectSize.x < leftBound ||
+                gameObject.transform.position.y - objectSize.y > topBound ||
+                gameObject.transform.position.y + objectSize.y < bottomBound)
             {
                 return true;
             }
@@ -36,6 +37,7 @@ namespace Assets.Scripts
             leftBound = -screenBounds.x;
             rightBound = screenBounds.x;
             screenHeight = topBound * 2;
+            objectSize = gameObject.GetComponent<SpriteRenderer>().size;
         }
 
         protected void Update()
