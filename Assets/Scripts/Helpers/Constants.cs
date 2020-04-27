@@ -5,6 +5,7 @@ namespace Assets.Scripts.Helpers
     public static class Constants
     {
         public const string BarName = "Bar";
+        public const float CheatShiftSize = 0.0033f;
         public const int EnemyProjectileLayer = 9;
         public const string EnemyTag = "Enemy";
         public const string GameSceneName = "Game";

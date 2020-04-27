@@ -11,18 +11,24 @@ namespace Assets.Scripts
         public Rigidbody2D projectile;
         public float ProjectileSpawnTime;
         public float Speed;
-        private Rigidbody2D body;
-        private Text healthText;
-        private GameObject player;
         private readonly Vector2 projectile1Vector = new Vector2(0, 0.2f);
         private readonly Vector2 projectile2Vector = new Vector2(-0.06f, 0.2f);
         private readonly Vector2 projectile3Vector = new Vector2(0.06f, 0.2f);
+        private Rigidbody2D body;
+        private Text healthText;
+        private GameObject player;
 
         public void MoveVector(Vector2 vector)
         {
-            if (IsNextPositionOutOfScreen(vector.x, vector.y))
+            var moveVector = vector;
+            if (IsNextPositionOutOfScreenX(vector.x))
             {
-                return;
+                moveVector -= new Vector2(vector.x, 0);
+            }
+
+            if (IsNextPositionOutOfScreenY(vector.y))
+            {
+                moveVector -= new Vector2(0, vector.y);
             }
 
             // Vector3 velocity = Vector3.zero;
@@ -30,7 +36,7 @@ namespace Assets.Scripts
             // Vector3 smoothPosition = Vector3.SmoothDamp(transform.position, desiredPosition, ref velocity, 0.01f);
             // player.transform.position = smoothPosition;
 
-            body.MovePosition(body.position + vector);
+            body.MovePosition(body.position + moveVector);
         }
 
         private void CheckBottomBound()
@@ -98,7 +104,7 @@ namespace Assets.Scripts
         {
             base.Update();
             RefreshHealth();
-            CheckBottomBound();
+            //CheckBottomBound();
         }
     }
 }

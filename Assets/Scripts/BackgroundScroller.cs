@@ -1,5 +1,4 @@
 ﻿using System;
-using Assets.Scripts;
 using Assets.Scripts.Helpers;
 using UnityEngine;
 
@@ -10,7 +9,7 @@ public class BackgroundScroller : MonoBehaviour
     public Vector2 ScreenBounds;
     public float scrollSpeed;
     private Camera mainCamera;
-    private Transform playerTransform;
+    private Rigidbody2D playerBody;
 
     private void Awake()
     {
@@ -20,7 +19,16 @@ public class BackgroundScroller : MonoBehaviour
         {
             LoadChildObjects(obj);
         }
-        playerTransform = GameObject.Find(Constants.PlayerName).GetComponent<Transform>();
+
+        playerBody = GameObject.Find(Constants.PlayerName).GetComponent<Rigidbody2D>();
+    }
+
+    private Vector3 GetMoveSmoothPosition(Vector3 currentPosition)
+    {
+        Vector3 velocity = Vector3.zero;
+        Vector3 desiredPosition = currentPosition + new Vector3(0, scrollSpeed, 0);
+        Vector3 smoothPosition = Vector3.SmoothDamp(currentPosition, desiredPosition, ref velocity, Constants.SmoothScrolling);
+        return smoothPosition;
     }
 
     private void LateUpdate()
@@ -48,6 +56,18 @@ public class BackgroundScroller : MonoBehaviour
         Destroy(obj.GetComponent<SpriteRenderer>());
     }
 
+    private void MoveBackground()
+    {
+        //Vector3 smoothPosition = GetMoveSmoothPosition(transform.position);
+        //transform.position = smoothPosition;
+        transform.position += new Vector3(0, scrollSpeed * Time.deltaTime, 0);
+    }
+
+    private void MovePlayer()
+    {
+        playerBody.MovePosition(playerBody.position + new Vector2(0, scrollSpeed * (Time.deltaTime + Constants.CheatShiftSize)));
+    }
+
     private void RepositionChildObjects(GameObject obj)
     {
         Transform[] children = obj.GetComponentsInChildren<Transform>();
@@ -72,25 +92,6 @@ public class BackgroundScroller : MonoBehaviour
     private void Update()
     {
         MoveBackground();
-    }
-
-    private void MoveBackground()
-    {
-        Vector3 smoothPosition = GetMoveSmoothPosition(transform.position);
-        transform.position = smoothPosition;
-    }
-
-    private void MovePlayer()
-    {
-        Vector3 smoothPosition = GetMoveSmoothPosition(playerTransform.position);
-        playerTransform.position = smoothPosition;
-    }
-
-    private Vector3 GetMoveSmoothPosition(Vector3 currentPosition)
-    {
-        Vector3 velocity = Vector3.zero;
-        Vector3 desiredPosition = currentPosition + new Vector3(0, scrollSpeed, 0);
-        Vector3 smoothPosition = Vector3.SmoothDamp(currentPosition, desiredPosition, ref velocity, Constants.SmoothScrolling);
-        return smoothPosition;
+        MovePlayer();
     }
 }
