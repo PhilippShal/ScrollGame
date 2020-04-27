@@ -7,34 +7,12 @@ namespace Assets.Scripts
     public class MovingObject : MonoBehaviour
     {
         protected float bottomBound;
-        private float leftBound;
+        protected float leftBound;
+        protected float rightBound;
+        protected float topBound;
         private Camera mainCamera;
-        private float rightBound;
         private Vector2 screenBounds;
         private float screenHeight;
-        private float topBound;
-
-        protected bool IsNextPositionOutOfScreenX(float xShift)
-        {
-            if (gameObject.transform.position.x + xShift > rightBound ||
-                gameObject.transform.position.x + xShift < leftBound)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        protected bool IsNextPositionOutOfScreenY(float yShift)
-        {
-            if (gameObject.transform.position.y + yShift > topBound ||
-                gameObject.transform.position.y + yShift < bottomBound)
-            {
-                return true;
-            }
-
-            return false;
-        }
 
         protected bool IsPositionOutOfScreen()
         {

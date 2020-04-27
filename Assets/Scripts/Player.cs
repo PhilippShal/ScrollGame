@@ -20,31 +20,15 @@ namespace Assets.Scripts
 
         public void MoveVector(Vector2 vector)
         {
-            var moveVector = vector;
-            if (IsNextPositionOutOfScreenX(vector.x))
-            {
-                moveVector -= new Vector2(vector.x, 0);
-            }
-
-            if (IsNextPositionOutOfScreenY(vector.y))
-            {
-                moveVector -= new Vector2(0, vector.y);
-            }
+            var moveVector = body.position + vector;
+            var clampedVector = new Vector2(Mathf.Clamp(moveVector.x, leftBound, rightBound), Mathf.Clamp(moveVector.y, bottomBound, topBound));
 
             // Vector3 velocity = Vector3.zero;
             // Vector3 desiredPosition = player.transform.position + new Vector3(xShift, yShift, 0);
             // Vector3 smoothPosition = Vector3.SmoothDamp(transform.position, desiredPosition, ref velocity, 0.01f);
             // player.transform.position = smoothPosition;
 
-            body.MovePosition(body.position + moveVector);
-        }
-
-        private void CheckBottomBound()
-        {
-            if (body.position.y < bottomBound)
-            {
-                body.position = new Vector3(body.position.x, bottomBound, player.transform.position.z);
-            }
+            body.MovePosition(clampedVector);
         }
 
         private void Gameover()
@@ -104,7 +88,6 @@ namespace Assets.Scripts
         {
             base.Update();
             RefreshHealth();
-            //CheckBottomBound();
         }
     }
 }
