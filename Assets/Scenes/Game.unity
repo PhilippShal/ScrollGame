@@ -659,7 +659,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 826289075}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.325, y: 0, z: 0}
+  m_LocalPosition: {x: -0.4, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1747327223}
@@ -1127,7 +1127,7 @@ Transform:
   m_GameObject: {fileID: 1575707481}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.65, y: 0.09, z: 1}
+  m_LocalScale: {x: 80, y: 5, z: 1}
   m_Children: []
   m_Father: {fileID: 362406699}
   m_RootOrder: 0
@@ -1171,7 +1171,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 100
-  m_Sprite: {fileID: 21300000, guid: 8a43f8948000aed47bc0153ef086712e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ef2625e55670ed544b42a1f0723774d8, type: 3}
   m_Color: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1285,7 +1285,7 @@ MonoBehaviour:
   - {fileID: 1464332779}
   - {fileID: 1746632502}
   ScreenBounds: {x: 0, y: 0}
-  scrollSpeed: 0
+  scrollSpeed: 2
 --- !u!114 &1591699633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1504,8 +1504,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1747327222}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.325, y: 0, z: 0}
-  m_LocalScale: {x: 0.65, y: 0.09, z: 1}
+  m_LocalPosition: {x: 0.4, y: 0, z: 0}
+  m_LocalScale: {x: 80, y: 5, z: 1}
   m_Children: []
   m_Father: {fileID: 826289076}
   m_RootOrder: 0
@@ -1549,12 +1549,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 110
-  m_Sprite: {fileID: 21300000, guid: 8a43f8948000aed47bc0153ef086712e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ef2625e55670ed544b42a1f0723774d8, type: 3}
   m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.01, y: 0.01}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -1595,8 +1595,8 @@ MonoBehaviour:
   Health: 100
   projectile: {fileID: 4642853497561504338, guid: 66eb05a0b476934478653d1cff80397d,
     type: 3}
-  Speed: 0.1
   ProjectileSpawnTime: 0.7
+  Speed: 0.1
 --- !u!212 &1885816470
 SpriteRenderer:
   m_ObjectHideFlags: 0

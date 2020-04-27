@@ -7,12 +7,12 @@ namespace Assets.Scripts
     public class MovingObject : MonoBehaviour
     {
         protected float bottomBound;
-        private BackgroundScroller bgScroller;
         private float leftBound;
         private float rightBound;
         private Vector2 screenBounds;
         private float screenHeight;
         private float topBound;
+        private Camera mainCamera;
 
         protected bool IsNextPositionOutOfScreen(float xShift, float yShift)
         {
@@ -42,13 +42,14 @@ namespace Assets.Scripts
 
         protected void Start()
         {
-            bgScroller = GameObject.Find(Constants.MainCameraName).GetComponent<BackgroundScroller>();
-            screenBounds = bgScroller.ScreenBounds;
+            mainCamera = GameObject.Find(Constants.MainCameraName).GetComponent<Camera>();
+            screenBounds = mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, mainCamera.transform.position.z));
             topBound = screenBounds.y;
             bottomBound = -screenBounds.y;
             leftBound = -screenBounds.x;
             rightBound = screenBounds.x;
             screenHeight = topBound * 2;
+            
         }
 
         protected void Update()
@@ -58,7 +59,7 @@ namespace Assets.Scripts
 
         private void RefreshBounds()
         {
-            screenBounds = bgScroller.ScreenBounds;
+            screenBounds = mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, mainCamera.transform.position.z));
             topBound = screenBounds.y;
             bottomBound = topBound - screenHeight;
         }

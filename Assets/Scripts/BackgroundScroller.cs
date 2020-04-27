@@ -1,4 +1,5 @@
 ﻿using System;
+using Assets.Scripts;
 using Assets.Scripts.Helpers;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ public class BackgroundScroller : MonoBehaviour
     public Vector2 ScreenBounds;
     public float scrollSpeed;
     private Camera mainCamera;
+    private Transform playerTransform;
 
     private void Awake()
     {
@@ -18,6 +20,7 @@ public class BackgroundScroller : MonoBehaviour
         {
             LoadChildObjects(obj);
         }
+        playerTransform = GameObject.Find(Constants.PlayerName).GetComponent<Transform>();
     }
 
     private void LateUpdate()
@@ -68,9 +71,26 @@ public class BackgroundScroller : MonoBehaviour
 
     private void Update()
     {
-        Vector3 velocity = Vector3.zero;
-        Vector3 desiredPosition = transform.position + new Vector3(0, scrollSpeed, 0);
-        Vector3 smoothPosition = Vector3.SmoothDamp(transform.position, desiredPosition, ref velocity, Constants.SmoothScrolling);
+        MoveBackground();
+    }
+
+    private void MoveBackground()
+    {
+        Vector3 smoothPosition = GetMoveSmoothPosition(transform.position);
         transform.position = smoothPosition;
+    }
+
+    private void MovePlayer()
+    {
+        Vector3 smoothPosition = GetMoveSmoothPosition(playerTransform.position);
+        playerTransform.position = smoothPosition;
+    }
+
+    private Vector3 GetMoveSmoothPosition(Vector3 currentPosition)
+    {
+        Vector3 velocity = Vector3.zero;
+        Vector3 desiredPosition = currentPosition + new Vector3(0, scrollSpeed, 0);
+        Vector3 smoothPosition = Vector3.SmoothDamp(currentPosition, desiredPosition, ref velocity, Constants.SmoothScrolling);
+        return smoothPosition;
     }
 }
