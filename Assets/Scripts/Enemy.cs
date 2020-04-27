@@ -8,8 +8,11 @@ public class Enemy : MovingObject
     public int Health;
     public Rigidbody2D projectile;
     public float ProjectileSpawnTime;
-    public float xProjectileSpeed;
-    public float yProjectileSpeed;
+    public float XMovement;
+    public float XProjectileSpeed;
+    public float YMovement;
+    public float YProjectileSpeed;
+    private Rigidbody2D body;
 
     private HealthBar healthBar;
     private int initialHealth;
@@ -17,6 +20,19 @@ public class Enemy : MovingObject
     private void Death()
     {
         Destroy(gameObject);
+    }
+
+    private void DestroyIfOutOfScreen()
+    {
+        if (IsPositionOutOfScreen())
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void Move()
+    {
+        body.MovePosition(body.position + new Vector2(XMovement, YMovement));
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
@@ -35,10 +51,10 @@ public class Enemy : MovingObject
 
     private void SpawnProjectile()
     {
-        var instance = Instantiate(projectile, gameObject.GetComponent<Transform>().position + new Vector3(0, 0, Constants.ProjectileZShift), Converters.GetAngleFromDirection(xProjectileSpeed, yProjectileSpeed));
+        var instance = Instantiate(projectile, gameObject.GetComponent<Transform>().position + new Vector3(0, 0, Constants.ProjectileZShift), Converters.GetAngleFromDirection(XProjectileSpeed, YProjectileSpeed));
         var newProjectile = instance.gameObject.GetComponent<EnemyProjectile>();
-        newProjectile.xSpeed = xProjectileSpeed;
-        newProjectile.ySpeed = yProjectileSpeed;
+        newProjectile.xSpeed = XProjectileSpeed;
+        newProjectile.ySpeed = YProjectileSpeed;
     }
 
     private new void Start()
@@ -46,6 +62,7 @@ public class Enemy : MovingObject
         base.Start();
         InvokeRepeating("SpawnProjectile", 0f, ProjectileSpawnTime);
         healthBar = gameObject.GetComponentInChildren<HealthBar>();
+        body = gameObject.GetComponent<Rigidbody2D>();
         initialHealth = Health;
     }
 
@@ -53,5 +70,7 @@ public class Enemy : MovingObject
     {
         base.Update();
         healthBar.SetSize(Health / (float)initialHealth);
+        Move();
+        DestroyIfOutOfScreen();
     }
 }

@@ -9,18 +9,33 @@ public class Projectile : MovingObject
     public float ySpeed;
     private Rigidbody2D body;
 
+    protected new void Start()
+    {
+        base.Start();
+        body = gameObject.GetComponent<Rigidbody2D>();
+    }
+
+    protected new void Update()
+    {
+        base.Update();
+        MoveWithSpeed();
+        DestroyIfOutOfScreen();
+    }
+
+    private void DestroyIfOutOfScreen()
+    {
+        if (IsPositionOutOfScreen())
+        {
+            Destroy(gameObject);
+        }
+    }
+
     private void FixedUpdate()
     {
     }
 
     private void MoveVector(Vector2 vector)
     {
-        if (IsPositionOutOfScreen())
-        {
-            Destroy(gameObject);
-            return;
-        }
-
         body.MovePosition(body.position + vector);
     }
 
@@ -32,17 +47,5 @@ public class Projectile : MovingObject
         {
             transform.rotation = Converters.GetAngleFromDirection(movingVector.x, movingVector.y);
         }
-    }
-
-    protected new void Start()
-    {
-        base.Start();
-        body = gameObject.GetComponent<Rigidbody2D>();
-    }
-
-    protected new void Update()
-    {
-        base.Update();
-        MoveWithSpeed();
     }
 }
